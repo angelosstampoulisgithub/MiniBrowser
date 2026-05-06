@@ -4,7 +4,6 @@
 //
 //  Created by Angelos Staboulis on 3/5/26.
 //
-
 import SwiftUI
 
 struct AddressBar: View {
