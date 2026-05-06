@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct Bookmark: Identifiable, Codable {
-    let id = UUID()
+    let id:UUID
     let title: String
     let url: URL
 }

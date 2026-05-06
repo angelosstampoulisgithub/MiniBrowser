@@ -84,8 +84,9 @@ struct ContentView: View {
                     Button {
                         vm.addBookmark(from: vm.tabs[index])
                     } label: {
-                        Image(systemName: "bookmark")
+                        Image(systemName: vm.tabs[index].isBookmarked ? "bookmark.fill" : "bookmark")
                             .font(.title2)
+                            .foregroundColor(vm.tabs[index].isBookmarked ? .orange : .accentColor)
                     }
 
                     Button {

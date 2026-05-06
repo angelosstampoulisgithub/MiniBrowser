@@ -44,9 +44,13 @@ class WebViewModel: ObservableObject {
         guard let url = tab.url else { return }
         
         let title = url.absoluteString
-      
         
-        let bookmark = Bookmark(title: title, url: url)
+        if let index = tabs.firstIndex(where: { $0.id == tab.id }) {
+                tabs[index].isBookmarked = true
+        }
+        
+        let bookmark = Bookmark(id: UUID(), title: title, url: url)
         bookmarks.append(bookmark)
+       
     }
 }

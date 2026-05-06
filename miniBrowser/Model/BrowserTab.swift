@@ -22,7 +22,9 @@ class BrowserTab: ObservableObject, Identifiable {
     @Published var reloadTrigger = false
     
     @Published var exportAndShowDownloadsTrigger = false
-
+    
+    @Published var isBookmarked: Bool = false
+    
     init(url: URL?) {
         self.url = url
         self.urlString = url?.absoluteString ?? ""
