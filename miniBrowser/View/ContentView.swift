@@ -17,7 +17,6 @@ struct ContentView: View {
             Text("MiniBrowser")
                 .frame(maxWidth: .infinity, maxHeight: 25, alignment: .top)
 
-            TabsBar(vm: vm)
 
             if let index = vm.tabs.firstIndex(where: { $0.id == vm.selectedTabID }) {
 
@@ -52,14 +51,14 @@ struct ContentView: View {
                 )
 
                 WebView(tab: $vm.tabs[index], userAgent: "miniBrowser/1.0")
-                    .id(vm.tabs[index].id)
                     .ignoresSafeArea()
 
-                // MARK: - Safari Style Toolbar
                 HStack(spacing: 40) {
 
                     Button {
                         vm.tabs[index].goBackTrigger.toggle()
+                        vm.tabs[index].urlString =  ""
+                        vm.objectWillChange.send()
                     } label: {
                         Image(systemName: "chevron.backward")
                             .font(.title2)
@@ -68,6 +67,8 @@ struct ContentView: View {
 
                     Button {
                         vm.tabs[index].goForwardTrigger.toggle()
+                        vm.tabs[index].urlString =  ""
+                        vm.objectWillChange.send()
                     } label: {
                         Image(systemName: "chevron.forward")
                             .font(.title2)
