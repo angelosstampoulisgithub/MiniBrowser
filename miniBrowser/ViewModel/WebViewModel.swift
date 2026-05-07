@@ -28,17 +28,6 @@ class WebViewModel: ObservableObject {
            self.selectedTabID = first.id
     }
     
-    func addTab() {
-        let newTab = BrowserTab(url: URL(string: "https://google.com"))
-        tabs.append(newTab)
-        selectedTabID = newTab.id
-    }
-    
-    func closeTab(_ tab: BrowserTab) {
-        tabs.removeAll { $0.id == tab.id }
-        selectedTabID = tabs.first?.id
-    }
-    
     
     func addBookmark(from tab: BrowserTab) {
         guard let url = tab.url else { return }

@@ -8,25 +8,23 @@
 import Foundation
 import WebKit
 
-class BrowserTab: ObservableObject, Identifiable {
+struct BrowserTab: Identifiable {
     let id = UUID()
-    @Published var url: URL?
-    @Published var urlString: String
-    @Published var title: String = "New Tab"
 
-    @Published var canGoBack = false
-    @Published var canGoForward = false
+    var url: URL?
+    var urlString: String = ""
+    var title: String = "New Tab"
 
-    @Published var goBackTrigger = false
-    @Published var goForwardTrigger = false
-    @Published var reloadTrigger = false
+    var canGoBack = false
+    var canGoForward = false
+
+    var goBackTrigger = false
+    var goForwardTrigger = false
+    var reloadTrigger = false
+    var exportAndShowDownloadsTrigger = false
+
+    var shouldLoadNewURL = false
     
-    @Published var exportAndShowDownloadsTrigger = false
-    
-    @Published var isBookmarked: Bool = false
-    
-    init(url: URL?) {
-        self.url = url
-        self.urlString = url?.absoluteString ?? ""
-    }
+    var isBookmarked = false
+   
 }

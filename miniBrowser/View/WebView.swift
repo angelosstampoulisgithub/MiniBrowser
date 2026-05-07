@@ -25,7 +25,6 @@ final class WebViewProcessPool {
 struct WebView: UIViewRepresentable {
     @Binding var tab: BrowserTab
     let userAgent: String
-
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -48,12 +47,12 @@ struct WebView: UIViewRepresentable {
 
     func updateUIView(_ webView: WKWebView, context: Context) {
 
-        if let url = tab.url {
-            if webView.url?.absoluteString != url.absoluteString {
-                webView.load(URLRequest(url: url))
-            }
+      
+        if tab.shouldLoadNewURL, let url = tab.url {
+            tab.shouldLoadNewURL = false
+            webView.load(URLRequest(url: url))
         }
-
+        
         if tab.goBackTrigger {
             DispatchQueue.main.async { self.tab.goBackTrigger = false }
             webView.goBack()
@@ -148,12 +147,19 @@ struct WebView: UIViewRepresentable {
             let av = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             root.present(av, animated: true)
         }
-
+       
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            let urlString = webView.url?.absoluteString ?? ""
+            print("url=",urlString)
             DispatchQueue.main.async {
                 self.parent.tab.title = webView.title ?? self.parent.tab.url?.host ?? "Untitled"
                 self.parent.tab.canGoBack = webView.canGoBack
                 self.parent.tab.canGoForward = webView.canGoForward
+                self.parent.tab.url = URL(string:urlString)
+                self.parent.tab.urlString = urlString
+                
+
+                
             }
         }
     }
