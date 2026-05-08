@@ -7,23 +7,32 @@
 import SwiftUI
 
 struct AddressBar: View {
-    @Binding var urlString: String
-    var onGo: (String) -> Void
+    @Binding var tab: BrowserTab
+    let onGo: (String) -> Void
 
     var body: some View {
-        HStack {
-            TextField("Enter URL", text: $urlString)
-                .textFieldStyle(.roundedBorder)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .onSubmit {
-                    onGo(urlString)
-                }
+        VStack(spacing: 4) {
 
-            Button("Go") {
-                onGo(urlString)
+            HStack {
+                TextField("Enter URL", text: $tab.urlString)
+                    .textFieldStyle(.roundedBorder)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                    .disabled(tab.isLoading)
+                    .onTapGesture { tab.isTyping = true }
+                    .onSubmit {
+                        tab.isTyping = false
+                        onGo(tab.urlString)
+                    }
+
+                if tab.isLoading {
+                    ProgressView()
+                }
+            }
+
+            if tab.isLoading {
+                ProgressView()
             }
         }
-        .padding(.horizontal)
     }
 }

@@ -26,5 +26,10 @@ struct BrowserTab: Identifiable {
     var shouldLoadNewURL = false
     
     var isBookmarked = false
+    
+    
+    var isLoading = false
+    
+    var isTyping = false
    
 }

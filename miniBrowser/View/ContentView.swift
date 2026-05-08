@@ -21,25 +21,24 @@ struct ContentView: View {
             if let index = vm.tabs.firstIndex(where: { $0.id == vm.selectedTabID }) {
                 
                 AddressBar(
-                    urlString: Binding(
-                        get: { vm.tabs[index].urlString },
-                        set: { vm.tabs[index].urlString = $0 }
-                    ),
+                    tab: $vm.tabs[index],
                     onGo: { text in
                         var fixed = text
                         if !fixed.hasPrefix("http") {
                             fixed = "https://" + fixed
                         }
+
                         vm.tabs[index].urlString = fixed
                         vm.tabs[index].url = URL(string: fixed)
                         vm.tabs[index].shouldLoadNewURL = true
-
                     }
                 )
+
+
                 
                 WebView(tab: $vm.tabs[index], userAgent: "miniBrowser/1.0")
                     .ignoresSafeArea()
-                
+            
                 HStack(spacing: 40) {
                     
                     Button {
@@ -49,7 +48,6 @@ struct ContentView: View {
                         Image(systemName: "chevron.backward")
                             .font(.title2)
                     }
-                    .disabled(!vm.tabs[index].canGoBack)
                     
                     Button {
                         vm.tabs[index].goForwardTrigger.toggle()
@@ -58,7 +56,6 @@ struct ContentView: View {
                         Image(systemName: "chevron.forward")
                             .font(.title2)
                     }
-                    .disabled(!vm.tabs[index].canGoForward)
                     
                     Button {
                         vm.tabs[index].reloadTrigger.toggle()
@@ -92,7 +89,8 @@ struct ContentView: View {
                 }
                 .padding()
             }
-        }
+        
+    }
         .sheet(isPresented: $vm.showBookmarks) {
             NavigationView {
                 BookmarksView(vm: vm) { bookmark in
