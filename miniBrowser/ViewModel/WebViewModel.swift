@@ -9,37 +9,24 @@ import Foundation
 import WebKit
 // MARK: - ViewModel
 
+import SwiftUI
+
 class WebViewModel: ObservableObject {
     @Published var tabs: [BrowserTab] = [
-        BrowserTab(url: URL(string: "https://apple.com")!)
+        BrowserTab(url: URL(string: "https://apple.com"))
     ]
+
     @Published var selectedTabID: UUID?
-    
-    @Published var bookmarks: [Bookmark] = []
-    
-    @Published var didInitialSync = false
-    
     @Published var showBookmarks = false
-    
-    
+    @Published var bookmarks: [BrowserTab] = []
+
     init() {
-           let first = BrowserTab(url: URL(string: "https://apple.com")!)
-           self.tabs = [first]
-           self.selectedTabID = first.id
+        selectedTabID = tabs.first?.id
     }
-    
-    
+
     func addBookmark(from tab: BrowserTab) {
-        guard let url = tab.url else { return }
-        
-        let title = url.absoluteString
-        
-        if let index = tabs.firstIndex(where: { $0.id == tab.id }) {
-                tabs[index].isBookmarked = true
+        if !bookmarks.contains(where: { $0.url == tab.url }) {
+            bookmarks.append(tab)
         }
-        
-        let bookmark = Bookmark(id: UUID(), title: title, url: url)
-        bookmarks.append(bookmark)
-       
     }
 }

@@ -43,7 +43,7 @@ struct ContentView: View {
                     
                     Button {
                         vm.tabs[index].goBackTrigger.toggle()
-                        vm.objectWillChange.send()
+                        vm.tabs[index].shouldLoadNewURL = true
                     } label: {
                         Image(systemName: "chevron.backward")
                             .font(.title2)
@@ -51,7 +51,7 @@ struct ContentView: View {
                     
                     Button {
                         vm.tabs[index].goForwardTrigger.toggle()
-                        vm.objectWillChange.send()
+                        vm.tabs[index].shouldLoadNewURL = true
                     } label: {
                         Image(systemName: "chevron.forward")
                             .font(.title2)

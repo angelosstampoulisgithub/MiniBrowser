@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BookmarksView: View {
     @ObservedObject var vm: WebViewModel
-    var onSelect: (Bookmark) -> Void
+    var onSelect: (BrowserTab) -> Void
 
     var body: some View {
         List {
@@ -17,12 +17,11 @@ struct BookmarksView: View {
                 Button {
                     onSelect(bookmark)
                 } label: {
-                    VStack(alignment: .leading) {
-                        Text(bookmark.title)
-                            .font(.headline)
-                        Text(bookmark.url.absoluteString)
-                            .font(.caption)
-                            .foregroundColor(.gray)
+                    HStack {
+                        Image(systemName: "bookmark.fill")
+                            .foregroundColor(.orange)
+                        Text(bookmark.url?.absoluteString ?? "Unknown")
+                            .lineLimit(1)
                     }
                 }
             }
@@ -31,5 +30,8 @@ struct BookmarksView: View {
             }
         }
         .navigationTitle("Bookmarks")
+        .toolbar {
+            EditButton()
+        }
     }
 }
